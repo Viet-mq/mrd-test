@@ -74,7 +74,7 @@ public class AnimalManager implements CommandLineRunner {
     private List<Animal> generateAnimals() {
         List<Animal> animals = new ArrayList<>();
         Random random = new Random();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 1; i < 1001; i++) {
             int randomNumber = random.nextInt(1000) + 1;
             Animal animal;
             if (randomNumber % 2 == 0) {
