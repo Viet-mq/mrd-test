@@ -45,8 +45,27 @@ public class AnimalManager implements CommandLineRunner {
         latch.await();
 
         System.out.println("Done");
-
         executor.shutdown();
+
+        //write result
+        List<Animal> animalsFromDB = null;
+        List<Animal> animalsFromFile = null;
+        try {
+            animalsFromDB = animalService.getAllAnimalsFromDatabase();
+            animalsFromFile = FileStorage.readFromFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (animalsFromDB != null && animalsFromFile != null) {
+            boolean arraysEqual = Animal.compareAnimals(animalsFromDB, animalsFromFile);
+            if (arraysEqual) {
+                System.out.println("The arrays from DB and file are equal.");
+            } else {
+                System.out.println("The arrays from DB and file are not equal.");
+            }
+        }
+
     }
 
     private List<Animal> generateAnimals() {

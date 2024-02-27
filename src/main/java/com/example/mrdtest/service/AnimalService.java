@@ -26,4 +26,15 @@ public class AnimalService{
         animals.forEach(animal -> saveList.add(objectMapper.convertValue(animal, JpaAnimal.class)));
         animalRepository.saveAll(saveList);
     }
+
+    public List<Animal> getAllAnimalsFromDatabase() {
+        var jpaAnimals = animalRepository.findAll();
+        if (CollectionUtils.isEmpty(jpaAnimals)) {
+            return null;
+        }
+        List<Animal> result = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        jpaAnimals.forEach(jpaAnimal -> result.add(objectMapper.convertValue(jpaAnimal, Animal.class)));
+        return result;
+    }
 }
