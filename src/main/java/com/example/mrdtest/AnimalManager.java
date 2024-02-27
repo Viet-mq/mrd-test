@@ -3,7 +3,7 @@ package com.example.mrdtest;
 import com.example.mrdtest.dto.Animal;
 import com.example.mrdtest.dto.Cat;
 import com.example.mrdtest.dto.Duck;
-import com.example.mrdtest.filestorage.FileStorage;
+import com.example.mrdtest.service.FileStorageService;
 import com.example.mrdtest.service.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -23,6 +23,9 @@ public class AnimalManager implements CommandLineRunner {
     @Autowired
     private AnimalService animalService;
 
+    @Autowired
+    FileStorageService fileStorageService;
+
     public static void main(String[] args) {
         SpringApplication.run(AnimalManager.class, args);
     }
@@ -38,7 +41,7 @@ public class AnimalManager implements CommandLineRunner {
             latch.countDown();
         });
         executor.submit(() -> {
-            FileStorage.saveToFile(animals);
+            fileStorageService.saveToFile(animals);
             latch.countDown();
         });
 
@@ -52,7 +55,7 @@ public class AnimalManager implements CommandLineRunner {
         List<Animal> animalsFromFile = null;
         try {
             animalsFromDB = animalService.getAllAnimalsFromDatabase();
-            animalsFromFile = FileStorage.readFromFile();
+            animalsFromFile = fileStorageService.readFromFile();
         } catch (Exception e) {
             e.printStackTrace();
         }

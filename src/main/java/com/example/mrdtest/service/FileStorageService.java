@@ -1,6 +1,7 @@
-package com.example.mrdtest.filestorage;
+package com.example.mrdtest.service;
 
 import com.example.mrdtest.dto.Animal;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -9,8 +10,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileStorage {
-    public static void saveToFile(List<Animal> animals) {
+@Service
+public class FileStorageService {
+    public void saveToFile(List<Animal> animals) {
         try {
             FileWriter writer = new FileWriter("animals.txt");
             for (Animal animal : animals) {
@@ -23,7 +25,7 @@ public class FileStorage {
     }
 
 
-    public static List<Animal> readFromFile() {
+    public List<Animal> readFromFile() {
         List<Animal> animals = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader("animals.txt"))) {
             String line;
